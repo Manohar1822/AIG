@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>AI-Gurukul</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/bootstrap-social.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  <style>
+    .editView{
+        position:relative;
+        line-height: 25px;
+        width: auto;
+        
+    }
+    .flex-container > div {
+    text-align: center;
+    background-color: #f1f1f1;
+    width: 48%;
+    margin: 10px;
+    text-align: center;
+    
+    font-size: 30px;
+  }
+  .userbtn {
+    position: relative;
+    background-color: black;
+    text-align: center;
+    padding: 0%;
+  }
+  h3,h4,h5{
+    color: black;
+  }
+  p{
+    color: black;
+  }
+  </style>
+</head>
+<body>
+
+    
+    <%- include('partials/topnavbar') %>
+<li class="nav-item active">
+    <a class="nav-link present" href="/">Home <span class="sr-only">(current)</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/aboutus">About Us</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Roles
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="/adminfirstpage">Organization Admin</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="/teacherfirstpage">Teacher</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="/studentfirstpage">Student</a>
+    </div>
+  </li>
+</ul>
+
+<img src="/user.svg" alt="wrong path">
+
+</div>
+</nav>
+
+
+
+
+<div class="jumbotron text-center">
+    <div class="container mt-5">
+        <h1 style="color: black;">Welcome to AI-Gurukul</h1>
+        <h1 style="color: black;">Hi,<%= User.name %></h1>
+        <h1 style="color: black;">your organization is <%=User.orgName%> </h1>
+        <%if(Clas!=false){%>
+            <p>Your are in class <%=Clas.className%> </p>
+        <%}%>
+        <%if(Clas==false){%>
+            <p style="color:red ;">Please ask your organization to add class</p>
+        <%}%>
+        
+        <hr>
+        <a class="btn btn-light btn-lg" href="/logoutorganization" role="button">Log Out</a>
+    
+
+    <div class="flex-container">
+        
+        <div class="box">
+            <div class="box">
+                <h1>Created Exams</h1>
+            </div>
+            <%if(Exam!=false){%>
+                <%Exam.forEach(function(exam){%>
+                    <div class="item">
+                        <ul>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  View
+                                </a>
+                                <div class="dropdown-menu editView" aria-labelledby="navbarDropdown">
+                                    <p>Name: <%=exam.examName%></p>
+                                    <p>Class: <%=exam.className%></p>
+                                    <p>Start Date: <%= exam.examDate %> </p>
+                                    <p>End Date: <%= exam.examEndDate %> </p>
+                                    
+                                </div>
+                              </li>
+                            </ul>
+                        <h3><%=exam.examName%> </h3>
+                        <form action="/giveExam" method="post">
+                            <input type="hidden" name="startDate" value="<%=exam.examDate%>">
+                            <input type="hidden" name="endDate" value="<%=exam.examEndDate%>">
+                            <input type="hidden" name="examName" value="<%=exam.examName%>">
+                            <button type="submit">Start Exam</button>
+                        </form>
+                    </div>
+                    
+                <%})%>
+                
+                
+            <%}%>
+            
+            
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<%- include('partials/footer') %>

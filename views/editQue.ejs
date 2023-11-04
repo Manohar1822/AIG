@@ -1,0 +1,196 @@
+<%- include('partials/header') %>
+<div class="container mt-5">
+  <h1>Edit Questions for Exam: <%=Exams.examName%></h1>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Makes POST request to /register route -->
+          
+
+          
+            
+
+            <form action="/editedQuestion" method="POST">
+              <input type="hidden" name="examName" value="<%=Exams.examName%>">
+
+              <div class="form-group">
+                <label for="class">Choose CO for this Question</label>
+                <select name="coNo" required>
+                    <%if(Co!=false){%>
+                        <%Co.forEach(function(co){%>
+  
+                          <option value="<%=co.coNo%>"><%=co.coNo%>: <%= co.co %> </option>
+                        <%})%>
+                      <%}%>
+                </select>
+                <%if(Co==false){%>
+                  <p style="color: red;">Please add CO for this course' exam</p>
+                  <% } %> 
+              </div>
+
+            
+
+              
+
+
+              
+            <div class="form-group">
+                <label for="questionNo">*Question No.</label>
+                <input type="text" required class="form-control" name="questionNo" value="<%=question.questionNo%>" >
+              </div>
+              <div class="form-group">
+                <label for="question">*Question</label>
+
+                <input id="quest" type="text" required class="form-control" name="question" value="<%=question.question%>">
+              </div>
+              <h3 id="show_Level" style="color: blue;"></h3>
+              <div class="form-group">
+                <label for="solution">*Solution</label>
+                <textarea name="solution"  cols="30" rows="10" required class="form-control"><%=question.solution%></textarea> 
+
+              </div>
+              <input  type="checkbox" name="cb" onclick="predictLevel()">Check Bloom's Level
+              <br>
+              <br>
+              <br>
+              <br>
+              <div class="form-group">
+                <label for="Marks">*Marks for this Question</label>
+
+                <input type="number" required class="form-control" name="maxMarks" value="<%=question.maxMarks%>">
+              </div>
+              
+            <button type="submit" class="btn btn-dark">Edit Question</button>
+          </form>
+
+        </div>
+        <a href="/back" class="btn btn-light btn-lg" >Back to Home page</a>
+      </div>
+    </div>
+
+    <!--<div class="col-sm-4">
+      <div class="card social-block">
+        <div class="card-body">
+          <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+            Sign Up with Google
+          </a>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</div>
+<script>
+    
+  function predictLevel(){
+  
+  var level1=["Write", "List", "Label", "Name", "State", "Define", "Count", "Describe", "Draw", "Find", "Identify", "Match", 
+                          "Quote", "Recall", "Recite", "Sequence", "Tell", "Arrange", "Duplicate", "Memorize", "Order", "Outline", 
+                          "Recognize", "Relate", "Repeat", "Reproduce", "Select", "Choose", "Copy", "How", "Listen", "Locate",
+              "Memorise", "Observe", "Omit", "Read", "Recognise", "Record", "Remember", "Retell", "Show", "Spell",
+              "Trace", "What", "When", "Where", "Which", "Who", "Why"];
+  var level2=["Explain", "Summarize", "Paraphrase", "Describe", "Illustrate", "Conclude", "Demonstrate", "Discuss",
+                 "Generalize", "Identify", "Interpret", "Predict", "Report", "Restate", "Review", "Tell", "Classify",
+                 "Convert", "Defend", "Distinguish", "Estimate", "Express", "Extend", "Give example", "Indicate",
+                 "Infer", "Locate", "Recognize", "Rewrite", "Select", "Translate", "Ask", "Cite", "Compare",
+                 "Contrast", "Generalise", "Give examples", "Match", "Observe", "Outline", "Purpose", "Relate",
+                 "Rephrase", "Show", "Summarise","Comprehen"];
+  var level3=["Use", "Compute", "Solve", "Demonstrate", "Apply", "Construct", "Change", "Choose", "Dramatize", "Interview",
+                 "Prepare", "Produce", "Select", "Show", "Transfer", "Discover", "Employ", "Illustrate",
+                 "Interpret", "Manipulate","Modify", "Operate", "Practice", "Predict", "Relate schedule", "Sketch",
+                 "Use write", "Act", "Administer", "Associate", "Build", "Calculate", "Categorise", "Classify",
+                 "Connect", "Correlation", "Develop", "Dramatise", "Experiment", "With", "Group", "Identify",
+                 "Link", "Make use of", "Model", "Organise", "Perform", "Plan", "Relate", "Represent", "Simulate","Explain with","Explain along with","how",
+                 "Summarise", "Teach", "Translate"];
+  var level4=["Analyse", "Categorize", "Compare", "Contrast", "Separate", "Characterize", "Classify", "Debate", "Deduce", 
+              "Diagram", "Differentiate", "Discriminate", "Distinguish", "Examine", "Outline", "Relate", "Research", 
+              "Appraise", "Breakdown", "Calculate", "Criticize", "Derive", "Experiment", "Identify", "Illustrate", 
+              "Infer", "Interpret", "Model", "Outline", "Point out", "Question", "Select", "Subdivide", "Test", 
+              "Arrange", "Assumption", "Categorise", "Cause and", "Effect", "Choose", "Difference", "Discover", 
+              "Dissect", "Distinction", "Divide", "Establish", "Find", "Focus", "Function", "Group", "Highlight", 
+              "In-depth", "Discussion", "Inference", "Inspect", "Investigate", "Isolate", "List", "Motive", "Omit", 
+              "Order", "Organise", "Point out", "Prioritize", "Rank", "Reason", "Relationships", "Reorganise", "See", 
+              "Similar to", "Simplify", "Survey", "Take part in", "Test for", "Theme", "Comparing"];
+  var level6=["Create", "Design", "Hypothesize", "Invent", "Develop", "Compose", "Construct", "Integrate", "Make",
+               "Organize", "Perform", "Plan", "Produce", "Propose", "Rewrite", "Arrange", "Assemble", "Categorize", 
+               "Collect", "Combine", "Comply", "Devise", "Explain", "Formulate", "Generate", "Prepare", "Rearrange",
+               "Reconstruct", "Relate", "Reorganize", "Revise", "Set up", "Summarize", "Synthesize", "Tell", "Write", 
+               "Adapt", "Add to", "Build", "Change", "Choose", "Combine", "Compile", "Convert", "Delete", "Discover", 
+               "Discuss", "Elaborate", "Estimate", "Experiment", "Extend", "Happen", "Hypothesise", "Imagine",
+               "Improve", "Innovate", "Make up", "Maximise", "Minimise", "Model", "Modify", "Original", "Originate",
+               "Predict", "Reframe", "Simplify", "Solve", "Speculate", "Substitute", "Suppose", "Tabulate", "Test", 
+               "Theorise", "Think", "Transform", "Visualise","specify"];
+  var level5=["Judge", "Recommend", "Critique", "Justify", "Appraise", "Argue", "Assess", "Choose", "Conclude", 
+              "Decide", "Evaluate", "Predict", "Prioritize", "Prove", "Rank", "Rate", "Select", "Attach", "Compare", 
+              "Contrast", "Defend", "Describe", "Discriminate", "Estimate", "Explain", "Interpret", "Relate",
+              "Summarize", "Support", "Value", "Agree", "Award", "Bad", "Consider", "Convince", "Criteria", 
+              "Criticise", "Debate", "Deduct", "Determine", "Disprove", "Dispute", "Effective", "Give reasons", "Good",
+              "Grade", "How do we", "Know", "Importance", "Infer", "Influence", "Mark", "Measure", "Opinion", 
+              "Perceive", "Persuade", "Prioritise", "Rule on", "Test", "Useful", "Validate", "Why"];
+  
+  var Ques=document.getElementById('quest').value;
+
+  var que=Ques.toString().toLowerCase();
+  var c=[0,0,0,0,0,0];
+  level1.forEach(function(wor){
+      var word=wor.toString().toLowerCase();
+      if(que.indexOf(word)!=-1){
+          c[0]++;
+      }
+  })
+  
+  level2.forEach(function(wor){
+      var word=wor.toString().toLowerCase();
+      if(que.indexOf(word)!=-1){
+          c[1]++;
+      }
+  })
+  
+  level3.forEach(function(wor){
+      var word=wor.toString().toLowerCase();
+      if(que.indexOf(word)!=-1){
+          c[2]++;
+      }
+  })
+  
+  level4.forEach(function(wor){
+      var word=wor.toString().toLowerCase();
+      if(que.indexOf(word)!=-1){
+          c[3]++;
+      }
+  })
+  
+  level5.forEach(function(wor){
+      var word=wor.toString().toLowerCase();
+      if(que.indexOf(word)!=-1){
+          c[4]++;
+      }
+  })
+  
+  level6.forEach(function(wor){
+      var word=wor.toString().toLowerCase();
+      if(que.indexOf(word)!=-1){
+          c[5]++;
+      }
+  })
+  
+  var maxi=0;
+  var ans=1;
+  for(var i=0;i<c.length;i++){
+      if(maxi<c[i]){
+          maxi=c[i]
+          ans=i+1;
+      }
+  }
+  
+  console.log("It is level ",ans)
+  var display=document.querySelector('#show_Level');
+  display.textContent="Level "+ans;
+  }
+  
+  </script>
+<%- include('partials/footer') %>

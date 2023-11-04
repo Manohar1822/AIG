@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %> 
+<div class="container mt-5">
+  <h1>Choose Your Organization</h1>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Makes POST request to /register route -->
+          <form action="/orgteacher" method="POST">
+
+              <div class="form-group">
+                <label for="class">Choose your Organization</label>
+                <select name="orgUsername" required>
+                    <%if(organizations!=false){%>
+                        <%organizations.forEach(function(org){%>
+  
+                          <option value="<%=org.username%>"><%=org.name%>, <%= org.pincode %> </option>
+                        <%})%>
+                      <%}%>
+                </select>
+                <%if(organizations==false){%>
+                  <p style="color: red;">Please ask your Organization to register on AI_Gurukul as Admin</p>
+                  <% } %> 
+              </div>
+
+            <button type="submit" class="btn btn-dark">Register</button>
+          </form>
+
+        </div>
+        
+      </div>
+    </div>
+
+    <!--<div class="col-sm-4">
+      <div class="card social-block">
+        <div class="card-body">
+          <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+            Sign Up with Google
+          </a>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

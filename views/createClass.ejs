@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+    <h1>Create Class</h1>
+  
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+  
+            <!-- Makes POST request to /register route -->
+            <form action="/createClass" method="POST">
+              <div class="form-group">
+                <label for="name">*Class Name</label>
+                <p style="color:red;"><%= message %> </p>
+                <input type="text" required class="form-control" name="name">
+              </div>
+              
+              <button type="submit" class="btn btn-dark">Create</button>
+            </form>
+  
+          </div>
+          <a href="/homeorganization" class="btn btn-light btn-lg" >Back</a>
+        </div>
+      </div>
+  
+      <!--<div class="col-sm-4">
+        <div class="card social-block">
+          <div class="card-body">
+            <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+              <i class="fab fa-google"></i>
+              Sign Up with Google
+            </a>
+          </div>
+        </div>
+      </div> -->
+  
+    </div>
+  </div>
+
+<%- include('partials/footer') %>
